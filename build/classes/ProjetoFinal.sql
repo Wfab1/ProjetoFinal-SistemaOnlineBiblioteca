@@ -36,3 +36,5 @@ statusEmprestimo varChar(100),
 senha varChar(100)
 );
 select * from emprestarlivro;
+
+select * from emprestarlivro where dataemprestimo between '2025-02-13' and '2025-02-20';

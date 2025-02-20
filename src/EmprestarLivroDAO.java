@@ -15,7 +15,7 @@ public class EmprestarLivroDAO {
     //Inserir no banco de dados:
     public void inserirEmprestimo(EmprestarLivro emprestarLivro) {
         try {
-            String sql = "insert into emprestarlivro(codigo, nomeUsuario, dataEmprestimo, dataDevolucao, statusEmprestimo, senha) values ( ?, ?, ?, ?, ?, ?)";
+            String sql = "insert into emprestarlivro(codigo, nomeUsuario, dataemprestimo, datadevolucao, statusEmprestimo, senha) values ( ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = conexao.prepareStatement(sql);
 
             ps.setString(1, emprestarLivro.getCodigo());
@@ -221,34 +221,33 @@ public class EmprestarLivroDAO {
     }
     
     //ArrayList para exibir todos os empréstimos juntos de um determinado período de tempo.
-    public ArrayList<String> getEmprestimosEspecificos(String dataemprestimo1, String dataemprestimo2){
-         ArrayList<String> emprestimos = new ArrayList<String>();
+    public ArrayList<String> getEmprestimosEspecificos(String dataemprestimo1, String dataemprestimo2) {
+        ArrayList<String> emprestimos = new ArrayList<>();
         try {
-            String sql = "select * from emprestarlivro where dataEmprestimo between ? and ?;";
+            String sql = "select * from emprestarlivro where STR_TO_DATE(dataemprestimo, '%d/%m/%Y') between STR_TO_DATE(?, '%d/%m/%Y') and STR_TO_DATE(?, '%d/%m/%Y')";
             PreparedStatement sttmt = conexao.prepareStatement(sql);
             sttmt.setString(1, dataemprestimo1);
             sttmt.setString(2, dataemprestimo2);
-            ResultSet rst = sttmt.executeQuery();
-
+            ResultSet rst =   sttmt.executeQuery();            
             while (rst.next()) {
                 String codigo = rst.getString("codigo");
                 String dataEmpres = rst.getString("dataemprestimo");
                 String dataDev = rst.getString("datadevolucao");
                 String status = rst.getString("statusEmprestimo");
                 String nomeUsuario = rst.getString("nomeUsuario");
-                String senha = rst.getString("senha");
                 emprestimos.add("Código: " + codigo);
                 emprestimos.add("Nome de Usuário: " + nomeUsuario);
                 emprestimos.add("Data de empréstimo: " + dataEmpres);
                 emprestimos.add("Data de devolução: " + dataDev);
                 emprestimos.add("Status do empréstimo: " + status);
             }
-        } catch (Exception erro) {
-            System.out.println("ERRO: " + erro);
         }
+    catch (Exception erro) {
+            System.out.println("ERRO: " + erro);
+    }
         return emprestimos;
     }
- 
+
     //Verificar nome:
     public boolean verificarNome(String nomeUsuario) {
         String sql = "select * from emprestarlivro where nomeUsuario = ?";

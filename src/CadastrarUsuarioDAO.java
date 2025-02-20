@@ -304,6 +304,7 @@ public class CadastrarUsuarioDAO {
          try{
             String sql="select * from cadastrarusuario where Nome = ?;";
             PreparedStatement sttmt=conexao.prepareStatement(sql);
+            sttmt.setString(1, nomeUsuario);
             ResultSet rst=sttmt.executeQuery();
             while(rst.next()){
                 senha = rst.getString("Senha");

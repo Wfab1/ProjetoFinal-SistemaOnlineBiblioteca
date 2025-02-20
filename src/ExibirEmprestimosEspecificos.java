@@ -1,5 +1,6 @@
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ExibirEmprestimosEspecificos extends javax.swing.JFrame {
 
@@ -7,6 +8,7 @@ public class ExibirEmprestimosEspecificos extends javax.swing.JFrame {
         initComponents();
         String data1 = JOptionPane.showInputDialog("Informe a 1ª data do intervalo: ");
         String data2 = JOptionPane.showInputDialog("Informe a 2ª data do intervalo: ");
+      
         //Passando a ArrayList para um vetor:
         EmprestarLivroDAO emprestimosBanco = new EmprestarLivroDAO();
         ArrayList<String> emprestimos = emprestimosBanco.getEmprestimosEspecificos(data1, data2);
@@ -15,13 +17,13 @@ public class ExibirEmprestimosEspecificos extends javax.swing.JFrame {
             vetorEmprestimos[i] = emprestimos.get(i);
         }
         //Verificando se a ArrayList estiver vazia:
-        if (emprestimos.size() == 0){
+        if (emprestimos.size() == 0) {
             //Se sim, exibir uma mensagem de que não há empréstimos cadastrados com esses parâmetros:
             String[] emprestimosVazio = new String[1];
             emprestimosVazio[0] = "Não há empréstimos cadatrados com esses parâmetros!";
             lista.setListData(emprestimosVazio);
         } else {
-             //Se não, exibir os empréstimos:
+            //Se não, exibir os empréstimos:
             lista.setListData(vetorEmprestimos);
         }
     }
